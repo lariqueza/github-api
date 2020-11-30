@@ -1,36 +1,46 @@
-const github_data = {
-    "token":  "8fdd3a73d008e2053edca6315e7bd29d319400c8",
-    "username": "lariqueza"
-}
+//GET github url
 
-const fetch = require("node-fetch");
+fetch("https://github.com/lariqueza?tab=repositories")
+    .then(res => {
+      console.log("RESPONSE, WAITING TO PARSE...", res)
+      return res.json()
+      console.log(data.repository) 
+    })
+    .then(data => {
+        console.log("DATA PARSED...", data)
+    })
+    .catch(e => {
+        console.log("OH NO! ERROR!", e)
+    })
 
-const body = {
-    "query":
-    query { 
-        user(login: ${github_data["username"]}) { 
-          issues(first: 10, orderBy: {field: CREATED_AT, direction: DESC}){
-            nodes{
-              title,
-              body,
-              closedAt
+//GET git hub api
+
+    const github_data = {
+        "token":  "8fdd3a73d008e2053edca6315e7bd29d319400c8",
+        "username": "lariqueza"
+    }
+    
+    const body = {
+        "query":
+        query [{ 
+            user(login: ${github_data["username"]}) { 
+              issues(first: 10, orderBy: {field: CREATED_AT, direction: DESC}){
+                nodes{
+                  title,
+                  body,
+                  closedAt
+                }
+              }
             }
-          }
-        }
-      }
-}
+          }]
+    }
 
-const baseUrl = "ttps://api.github.com/graphql";
+// rendering in html
 
-const headers = {
-    "content-Type": "application/json",
-    Authentication: "bearer "+gitgub_data["token"] 
-}
-
-fetch(baseUrl, {
-    method: "POST",
-    headers: headers,
-    body: JSON.stringify(body)
+var repo = document.getElementById('repositories');
+data.forEach(fucntion(repository) {
+    output += ``
+    <ul>
+    <li>ID: ${repository.id}</li>
+    </ul>
 })
-then(response => {console.log(JSON.stringify(response))})
-.catch(err => console.log(JSON.stringify(err)));
